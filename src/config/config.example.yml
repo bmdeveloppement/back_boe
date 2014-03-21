@@ -1,0 +1,15 @@
+application:
+    domain: back_boe.dev
+
+databases:
+    auth:
+        host: localhost
+        user: 'back_boe'
+        password: 'back_pass'
+        database: 'boe'
+        pool_size: 10
+cache:
+    'cache.type': 'memory'
+flask:
+    debug: False
+    profiling: False

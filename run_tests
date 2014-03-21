@@ -1,0 +1,5 @@
+#!/bin/bash
+CONFIG_FILE=config.test.yml nosetests-2.7 --with-xunit --with-xcoverage --cover-package=api,domain,lib --cover-inclusive
+
+#integration tests
+#CONFIG_FILE=config.test.yml python -m unittest tests.handler.test_template
