@@ -31,7 +31,6 @@ class SqlAlchemyConnector(Singleton):
             application.config['SQLALCHEMY_POOL_RECYCLE'] = 1800
             application.config['SQLALCHEMY_MAX_OVERFLOW'] = db_config['pool_size']
             application.config['SQLALCHEMY_POOL_TIMEOUT'] = 2
-            print application.config['SQLALCHEMY_DATABASE_URI']
             self.db = SQLAlchemy(application)
         return self.db
 

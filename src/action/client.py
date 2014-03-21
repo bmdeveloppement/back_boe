@@ -8,12 +8,11 @@ logger = logging.getLogger(__name__)
 client_bp = Blueprint('client', __name__, url_prefix='/client')
 
 
-@client_bp.route('/<client_id>', methods=['GET'])
+@client_bp.route('/<id>', methods=['GET'])
 @json_format
-def get(client_id):
+def get(id):
     try:
-        client = ClientService().get(client_id)
-        print client
+        client = ClientService().get(id)
     except:
         logger.exception('An error occured when fecthing client')
         abort(404)
@@ -22,7 +21,7 @@ def get(client_id):
     return client
 
 
-@client_bp.route('/list', methods=['GET'])
+@client_bp.route('', methods=['GET'])
 @json_format
 def list():
     try:
@@ -32,7 +31,7 @@ def list():
         abort(404)
     if not clients:
         abort(404)
-    return [client.to_dict() for client in clients]
+    return clients
 
 
 @client_bp.route('', methods=['PUT'])
@@ -49,18 +48,18 @@ def create():
         abort(409)
     elif not client:
         abort(500)
-    return client.to_dict()
+    return client
 
 
-@client_bp.route('/<client_id>', methods=['POST'])
+@client_bp.route('/<id>', methods=['POST'])
 @json_format
-def edit(client_id):
-    """Update client by id, login is not editable"""
+def edit(id):
+    """Update client by id"""
     from flask import request
-    client = ClientService().edit(client_id, request.form)
-    if client is None:
+    client = ClientService().edit(id, request.form)
+    if not client:
         abort(404)
-    return client.to_dict()
+    return client
 
 
 @client_bp.route('/<id>', methods=['DELETE'])
