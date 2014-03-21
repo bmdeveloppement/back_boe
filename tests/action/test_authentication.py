@@ -17,21 +17,21 @@ class AuthenticationTests(unittest.TestCase):
 
         #Generate Login
         ts = time.time()
-        login = 'bminard%s' % ts
+        login = 'bm%s' % ts
 
         #Create new user
         user_obj = UserService().create({'login': login,
                                          'password_hash': 'pw4benoit',
-                                         'email': 'benoit.minard@dolead.com',
-                                         'first_name': 'Benoit',
-                                         'last_name': 'Minard',
+                                         'email': 'b.m@gmail.com',
+                                         'first_name': 'b',
+                                         'last_name': 'm',
                                          'identities': '{"auth": {"pipo": "pouet", "plouf": "waf"}}'})
         user_creation = user_obj
         self.assertEqual(user_creation['login'], login)
 
         #Login
         user = AuthenticationService().authenticate(login, 'pw4benoit')
-        self.assertEqual(user['email'], 'benoit.minard@dolead.com')
-        self.assertEqual(user['first_name'], 'Benoit')
-        self.assertEqual(user['last_name'], 'Minard')
+        self.assertEqual(user['email'], 'b.m@gmail.com')
+        self.assertEqual(user['first_name'], 'b')
+        self.assertEqual(user['last_name'], 'm')
         self.assertEqual(user['identities'], json.loads('{"auth": {"pipo": "pouet", "plouf": "waf"}}'))

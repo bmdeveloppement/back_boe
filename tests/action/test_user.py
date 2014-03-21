@@ -18,7 +18,7 @@ class UserTests(unittest.TestCase):
 
         #Generate Login
         ts = time.time()
-        self.login = 'bminard_create%s' % ts
+        self.login = 'bm_create%s' % ts
 
     def test_0_user_services(self):
         """Test user creation and get"""
@@ -26,18 +26,18 @@ class UserTests(unittest.TestCase):
         user_creation = UserService().create({
             'login': self.login,
             'password_hash': 'pw4benoit',
-            'email': 'user_creation_bminard@dolead.com',
+            'email': 'user_creation_b.m@gmail.com',
             'first_name': 'Benoit',
-            'last_name': 'Minard',
+            'last_name': 'm',
             'identities': '{"auth": {"ress1": True, "ress2": False}}'})
         self.assertEqual(user_creation['email'],
-                         'user_creation_bminard@dolead.com')
+                         'user_creation_b.m@gmail.com')
 
         #Get user by id
         user = UserService().get(user_creation['id'])
-        self.assertEqual(user['email'], 'user_creation_bminard@dolead.com')
+        self.assertEqual(user['email'], 'user_creation_b.m@gmail.com')
         self.assertEqual(user['first_name'], 'Benoit')
-        self.assertEqual(user['last_name'], 'Minard')
+        self.assertEqual(user['last_name'], 'm')
         self.assertEqual(user['identities'],
                          '{"auth": {"ress1": True, "ress2": False}}')
 
@@ -46,18 +46,18 @@ class UserTests(unittest.TestCase):
             user_creation['id'], {
                 'login': self.login,
                 'password_hash': 'pw4benoit',
-                'email': 'user_edited_bminard@dolead.com',
+                'email': 'user_edited_b.m@gmail.com',
                 'first_name': 'BenoitEdited',
-                'last_name': 'MinardEdited',
+                'last_name': 'm',
                 'identities': '{"auth": {"ress1": True, "ress2": False, "edited": True}}'})
         user_edited = user_obj_edited
-        self.assertEqual(user_edited['email'], 'user_edited_bminard@dolead.com')
+        self.assertEqual(user_edited['email'], 'user_edited_b.m@gmail.com')
 
         #Check user has been correctly edited
         user_get = UserService().get(user_edited['id'])
-        self.assertEqual(user_get['email'], 'user_edited_bminard@dolead.com')
+        self.assertEqual(user_get['email'], 'user_edited_b.m@gmail.com')
         self.assertEqual(user_get['first_name'], 'BenoitEdited')
-        self.assertEqual(user_get['last_name'], 'MinardEdited')
+        self.assertEqual(user_get['last_name'], 'm')
         self.assertEqual(user_get['identities'],
                          '{"auth": {"ress1": True, "ress2": False, "edited": True}}')
 
