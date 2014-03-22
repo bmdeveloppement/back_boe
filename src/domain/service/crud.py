@@ -16,16 +16,16 @@ class CrudService(object):
         self.__type__ = self.model
 
     @SqlAlchemyConnector.provide_session
+    def get(self, resource_id, session=None):
+        """Get an instance"""
+        model_instance = session.query(self.model).get(resource_id)
+        return model_instance
+
+    @SqlAlchemyConnector.provide_session
     def list(self, session=None):
         """List instances"""
         model_instances = session.query(self.model).all()
         return model_instances
-
-    @SqlAlchemyConnector.provide_session
-    def get(self, id, session=None):
-        """Get an instance"""
-        model_instance = session.query(self.model).get(id)
-        return model_instance
 
     @SqlAlchemyConnector.provide_session
     def create(self, request, session=None):
@@ -42,10 +42,10 @@ class CrudService(object):
             return False
 
     @SqlAlchemyConnector.provide_session
-    def edit(self, id, request, session=None):
+    def update(self, resource_id, request, session=None):
         """Edit an instance"""
         try:
-            model_instance = session.query(self.model).get(id)
+            model_instance = session.query(self.model).get(resource_id)
             copy_items(request, model_instance, model_instance.attribute_list)
             session.commit()
             return model_instance.id
