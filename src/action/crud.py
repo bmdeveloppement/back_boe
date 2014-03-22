@@ -25,7 +25,6 @@ class CrudView(MethodView):
         **resource_service** and format the result through the also class
         defined **formatter**."""
         result = getattr(self.resource_service, action)(*args, **kwargs)
-        print result
         return result
 
 

@@ -32,7 +32,7 @@ class CrudService(object):
         """Create new instance"""
         try:
             model_instance = self.model()
-            copy_items(request, model_instance, model_instance.attribute_list)
+            copy_items(request, model_instance, model_instance.__attribute_list__)
             session.add(model_instance)
             session.commit()
             return model_instance.id
@@ -46,7 +46,7 @@ class CrudService(object):
         """Edit an instance"""
         try:
             model_instance = session.query(self.model).get(resource_id)
-            copy_items(request, model_instance, model_instance.attribute_list)
+            copy_items(request, model_instance, model_instance.__attribute_list__)
             session.commit()
             return model_instance.id
         except Exception as e:

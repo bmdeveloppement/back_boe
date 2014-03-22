@@ -19,8 +19,12 @@ application = BoeFlaskApplication(__name__)
 def import_blueprints():
     """Import BPs"""
     from action.client import client_bp
+    from action.deliverer import deliverer_bp
+    from action.delivery import delivery_bp
 
     application.register_blueprint(client_bp)
+    application.register_blueprint(deliverer_bp)
+    application.register_blueprint(delivery_bp)
 
 
 @application.before_request

@@ -2,9 +2,9 @@
 from main import db
 from domain.model.model import Model
 
-class Client(db.Model, Model):
+class Deliverer(db.Model, Model):
     """Model"""
-    __tablename__ = 'client'
+    __tablename__ = 'deliverer'
     __attribute_list__ = ['company_name', 'email_address']
 
     id = db.Column(db.Integer(10), primary_key=True)
