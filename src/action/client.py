@@ -4,66 +4,69 @@ from flask import abort, Blueprint
 from lib.json_utils import json_format
 from domain.service.client import ClientService
 
+current_action = 'client'
 logger = logging.getLogger(__name__)
-client_bp = Blueprint('client', __name__, url_prefix='/client')
+client_bp = Blueprint(current_action, __name__, url_prefix='/%s' % current_action)
 
 
 @client_bp.route('/<id>', methods=['GET'])
 @json_format
 def get(id):
+    """Get item by id"""
     try:
-        client = ClientService().get(id)
+        item = ClientService(current_action).get(id)
     except:
-        logger.exception('An error occured when fecthing client')
+        logger.exception('An error occured when fecthing %s' % current_action)
         abort(404)
-    if not client:
+    if not item:
         abort(404)
-    return client
+    return item
 
 
 @client_bp.route('', methods=['GET'])
 @json_format
 def list():
+    """Create items"""
     try:
-        clients = ClientService().list()
+        items = ClientService(current_action).list()
     except:
-        logger.exception('An error occured when fecthing client')
+        logger.exception('An error occured when fecthing %s' % current_action)
         abort(404)
-    if not clients:
+    if not items:
         abort(404)
-    return clients
+    return items
 
 
 @client_bp.route('', methods=['PUT'])
 @json_format
 def create():
-    """Create new client"""
+    """Create new item"""
     from flask import request
     try:
-        client = ClientService().create(request.form)
+        item = ClientService(current_action).create(request.form)
     except:
-        logger.exception('An error occured when creating client')
+        logger.exception('An error occured when creating %s' % current_action)
         abort(409)
-    if client is None:
+    if item is None:
         abort(409)
-    elif not client:
+    elif not item:
         abort(500)
-    return client
+    return item
 
 
 @client_bp.route('/<id>', methods=['POST'])
 @json_format
 def edit(id):
-    """Update client by id"""
+    """Update item by id"""
     from flask import request
-    client = ClientService().edit(id, request.form)
-    if not client:
+    item = ClientService(current_action).edit(id, request.form)
+    if not item:
         abort(404)
-    return client
+    return item
 
 
 @client_bp.route('/<id>', methods=['DELETE'])
 @json_format
 def delete(id):
-    """Delete client by id"""
+    """Delete item by id"""
     abort(501)

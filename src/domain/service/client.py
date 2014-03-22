@@ -9,31 +9,34 @@ logger = logging.getLogger(__name__)
 
 class ClientService(object):
 
-    def __init__(self):
+    def __init__(self, model_name):
         """Init"""
-        self.__type__ = Client
+        from_path = 'domain.model.client'
+        magic_import = __import__(from_path, fromlist=['client'])
+        self.model = magic_import.Client
+        self.__type__ = self.model
 
     @SqlAlchemyConnector.provide_session
     def list(self, session=None):
         """List instances"""
-        clients = session.query(Client).all()
-        return clients
+        model_instances = session.query(self.model).all()
+        return model_instances
 
     @SqlAlchemyConnector.provide_session
     def get(self, id, session=None):
         """Get an instance"""
-        client = session.query(Client).get(id)
-        return client
+        model_instance = session.query(self.model).get(id)
+        return model_instance
 
     @SqlAlchemyConnector.provide_session
     def create(self, request, session=None):
         """Create new instance"""
         try:
-            client = Client()
-            copy_items(request, client, client.attribute_list)
-            session.add(client)
+            model_instance = self.model()
+            copy_items(request, model_instance, model_instance.attribute_list)
+            session.add(model_instance)
             session.commit()
-            return client.id
+            return model_instance.id
         except Exception as e:
             session.rollback()
             logging.error(repr(e))
@@ -43,10 +46,10 @@ class ClientService(object):
     def edit(self, id, request, session=None):
         """Edit an instance"""
         try:
-            client = session.query(Client).get(id)
-            copy_items(request, client, client.attribute_list)
+            model_instance = session.query(self.model).get(id)
+            copy_items(request, model_instance, model_instance.attribute_list)
             session.commit()
-            return client.id
+            return model_instance.id
         except Exception as e:
             session.rollback()
             logging.error(repr(e))
