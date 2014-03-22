@@ -14,7 +14,7 @@ client_bp = Blueprint(current_action, __name__, url_prefix='/%s' % current_actio
 def get(id):
     """Get item by id"""
     try:
-        item = ClientService(current_action).get(id)
+        item = ClientService().get(id)
     except:
         logger.exception('An error occured when fecthing %s' % current_action)
         abort(404)
@@ -28,7 +28,7 @@ def get(id):
 def list():
     """Create items"""
     try:
-        items = ClientService(current_action).list()
+        items = ClientService().list()
     except:
         logger.exception('An error occured when fecthing %s' % current_action)
         abort(404)
@@ -43,7 +43,7 @@ def create():
     """Create new item"""
     from flask import request
     try:
-        item = ClientService(current_action).create(request.form)
+        item = ClientService().create(request.form)
     except:
         logger.exception('An error occured when creating %s' % current_action)
         abort(409)
@@ -59,7 +59,7 @@ def create():
 def edit(id):
     """Update item by id"""
     from flask import request
-    item = ClientService(current_action).edit(id, request.form)
+    item = ClientService().edit(id, request.form)
     if not item:
         abort(404)
     return item
