@@ -8,7 +8,7 @@ class PressTitle(db.Model, Model):
     __tablename__ = 'press_title'
     __attribute_list__ = ['supplier_id', 'name', 'supplier_cost', 
                           'royalty_cost', 'paging']
-    __relationships__ = ['supplier_id']
+    __relationships__ = ['supplier']
 
     id = db.Column(db.Integer(10), primary_key=True)
     supplier_id = db.Column(db.Integer,

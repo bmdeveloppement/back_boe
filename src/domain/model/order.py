@@ -9,7 +9,7 @@ class Order(db.Model, Model):
     __tablename__ = 'order'
     __attribute_list__ = ['press_title_id', 'point_of_sale_id', 'order_date',
                           'delivery_date', 'quantity']
-    __relationships__ = ['press_title_id', 'point_of_sale_id']
+    __relationships__ = ['press_title', 'point_of_sale']
 
     id = db.Column(db.Integer(10), primary_key=True)
     press_title_id = db.Column(db.Integer,

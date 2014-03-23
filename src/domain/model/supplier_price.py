@@ -8,7 +8,7 @@ class SupplierPrice(db.Model, Model):
     """Model"""
     __tablename__ = 'supplier_price'
     __attribute_list__ = ['press_title_id', 'client_id', 'value']
-    __relationships__ = ['press_title_id', 'client_id']
+    __relationships__ = ['press_title', 'client']
 
     id = db.Column(db.Integer(10), primary_key=True)
     press_title_id = db.Column(db.Integer,
