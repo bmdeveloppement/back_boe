@@ -8,7 +8,7 @@ from domain.model.point_of_sale import PointOfSale
 
 class Newspaper(db.Model, Model):
     """Model"""
-    __tablename__ = 'point_of_sale'
+    __tablename__ = 'newspaper'
     __attribute_list__ = ['client_id', 'press_title_id', 'delivery_id', 'point_of_sale_id',
                           'date', 'price', 'supplier_cost', 'royality_cost', 'paging', 'unsold']
     __relationships__ = ['client_id', 'press_title_id', 'delivery_id', 'point_of_sale_id']
@@ -30,8 +30,8 @@ class Newspaper(db.Model, Model):
     price = db.Column(db.Float(precision=2), nullable=False)
     supplier_cost = db.Column(db.Float(precision=2), nullable=False)
     royality_cost = db.Column(db.Float(precision=2), nullable=False)
-    paging = db.Column(db.Integer(11), nullable=True)
-    unsold = db.Column(db.Boolean, nullable=True)
+    paging = db.Column(db.Integer(11), nullable=False)
+    unsold = db.Column(db.Boolean, nullable=False)
 
     client = db.relationship(Client, uselist=False)
     press_title = db.relationship(PressTitle, uselist=False)
