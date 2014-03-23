@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint
+
 from domain.service.delivery import DeliveryService
 from action.crud import crud_actions
 from lib.json_utils import json_format

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-
 import sys
 import os
 import traceback
@@ -21,10 +20,12 @@ def import_blueprints():
     from action.client import client_bp
     from action.deliverer import deliverer_bp
     from action.delivery import delivery_bp
+    from action.distribution_round import distribution_round_bp
 
     application.register_blueprint(client_bp)
     application.register_blueprint(deliverer_bp)
     application.register_blueprint(delivery_bp)
+    application.register_blueprint(distribution_round_bp)
 
 
 @application.before_request
