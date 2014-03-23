@@ -6,8 +6,6 @@ from domain.model.deliverer import Deliverer
 class DistributionRound(db.Model, Model):
     """Model"""
     __tablename__ = 'distribution_round'
-    __attribute_list__ = ['deliverer_id', 'name', 'cost', 'schedule']
-    __relationships__ = ['deliverer']
 
     id = db.Column(db.Integer(10), primary_key=True)
     deliverer_id = db.Column(db.Integer,

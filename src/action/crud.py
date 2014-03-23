@@ -42,8 +42,14 @@ class CrudGetFullView(CrudView):
 
 class CrudListView(CrudView):
 
-    def get(self):
+    def post(self):
         return self.execute('list')
+
+
+class CrudListFieldView(CrudView):
+
+    def post(self, field_name):
+        return self.execute('list_field', field_name)
 
 
 class CrudCreateView(CrudView):
@@ -80,7 +86,12 @@ def crud_actions(blueprint, resource_name, resource_service, formatter=None):
     # List
     crud_list = CrudListView.as_view(resource_name + '_list',
             resource_service=resource_service)
-    blueprint.add_url_rule('/', view_func=crud_list, methods=['GET'])
+    blueprint.add_url_rule('/', view_func=crud_list, methods=['POST'])
+
+    # List Field
+    crud_list_field = CrudListFieldView.as_view(resource_name + '_list_field',
+            resource_service=resource_service)
+    blueprint.add_url_rule('/field_name/<field_name>', view_func=crud_list_field, methods=['POST'])
 
     # Create
     crud_create = CrudCreateView.as_view(resource_name + '_create',

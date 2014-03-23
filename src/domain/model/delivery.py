@@ -7,9 +7,6 @@ from domain.model.point_of_sale import PointOfSale
 class Delivery(db.Model, Model):
     """Model"""
     __tablename__ = 'delivery'
-    __attribute_list__ = ['distribution_round_id', 'point_of_sale_id',
-                          'date', 'price']
-    __relationships__ = ['distribution_round', 'point_of_sale']
 
     id = db.Column(db.Integer(10), primary_key=True)
     distribution_round_id = db.Column(db.Integer,

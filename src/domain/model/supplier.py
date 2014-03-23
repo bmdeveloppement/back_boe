@@ -5,8 +5,6 @@ from domain.model.model import Model
 class Supplier(db.Model, Model):
     """Model"""
     __tablename__ = 'supplier'
-    __attribute_list__ = ['company_name', 'email_address', 'report', 'reporting_hour']
-    __relationships__ = []
 
     id = db.Column(db.Integer(10), primary_key=True)
     company_name = db.Column(db.String(50), nullable=False)

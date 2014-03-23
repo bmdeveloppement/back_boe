@@ -14,7 +14,6 @@ sys.path.append(path.dirname(__file__))
 Configurator(os.path.dirname(__file__))
 application = BoeFlaskApplication(__name__)
 
-
 def import_blueprints():
     """Import BPs"""
     from action.client import client_bp

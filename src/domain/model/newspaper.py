@@ -9,9 +9,6 @@ from domain.model.point_of_sale import PointOfSale
 class Newspaper(db.Model, Model):
     """Model"""
     __tablename__ = 'newspaper'
-    __attribute_list__ = ['client_id', 'press_title_id', 'delivery_id', 'point_of_sale_id',
-                          'date', 'price', 'supplier_cost', 'royalty_cost', 'paging', 'unsold']
-    __relationships__ = ['client', 'press_title', 'delivery', 'point_of_sale']
 
     id = db.Column(db.Integer(10), primary_key=True)
     client_id = db.Column(db.Integer,
