@@ -6,7 +6,7 @@ from domain.model.distribution_round import DistributionRound
 
 class DistributionRoundService(CrudService):
 
-    model_name = 'delivery'
+    model_name = 'distribution_round'
 
     def __init__(self):
         """Init"""
