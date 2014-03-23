@@ -34,6 +34,12 @@ class CrudGetView(CrudView):
         return self.execute('get', resource_id)
 
 
+class CrudGetFullView(CrudView):
+
+    def get(self, resource_id):
+        return self.execute('get_full', resource_id)
+
+
 class CrudListView(CrudView):
 
     def get(self):
@@ -65,6 +71,11 @@ def crud_actions(blueprint, resource_name, resource_service, formatter=None):
     crud_get = CrudGetView.as_view(resource_name + '_get',
             resource_service=resource_service)
     blueprint.add_url_rule('/<resource_id>', view_func=crud_get, methods=['GET'])
+
+    # Get Full
+    crud_get_full = CrudGetFullView.as_view(resource_name + '_get_full',
+            resource_service=resource_service)
+    blueprint.add_url_rule('/get_full/<resource_id>', view_func=crud_get_full, methods=['GET'])
 
     # List
     crud_list = CrudListView.as_view(resource_name + '_list',

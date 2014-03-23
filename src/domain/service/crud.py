@@ -22,6 +22,19 @@ class CrudService(object):
         return model_instance
 
     @SqlAlchemyConnector.provide_session
+    def get_full(self, resource_id, session=None):
+        """Get an instance with loading subinstances"""
+        print 'enter the matrix'
+        model_instance = session.query(self.__model__).get(resource_id)
+        if model_instance:
+            result = model_instance.dump()
+            for relationship in model_instance.__relationships__:
+                result[relationship] = getattr(model_instance, relationship).dump()
+            return result
+        else:
+            return None
+
+    @SqlAlchemyConnector.provide_session
     def list(self, session=None):
         """List instances"""
         model_instances = session.query(self.__model__).all()

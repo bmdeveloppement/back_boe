@@ -9,6 +9,7 @@ class PointOfSale(db.Model, Model):
     __tablename__ = 'point_of_sale'
     __attribute_list__ = ['client_id', 'distribution_round_id', 'delivery_price',
                           'address', 'city', 'zip_code', 'additional_data']
+    __relationships__ = ['client', 'distribution_round']
 
     id = db.Column(db.Integer(10), primary_key=True)
     client_id = db.Column(db.Integer,
