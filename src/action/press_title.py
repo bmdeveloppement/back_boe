@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint
 
-from domain.service.press_tile import PressTitleService
+from domain.service.press_title import PressTitleService
 from action.crud import crud_actions
 
 current_action = 'press_tile'

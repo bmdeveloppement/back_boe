@@ -1,9 +1,7 @@
 # -*- coding: utf-8 *-*
 from main import db
 from domain.model.model import Model
-from domain.model.client import Client
 from domain.model.press_title import PressTitle
-from domain.model.delivery import Delivery
 from domain.model.point_of_sale import PointOfSale
 
 class Order(db.Model, Model):
