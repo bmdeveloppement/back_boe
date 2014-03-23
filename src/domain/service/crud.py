@@ -10,9 +10,17 @@ class CrudService(object):
 
     def __init__(self):
         """Init"""
+        # Import model path from model_name
         from_path = 'domain.model.%s' % self.model_name
         magic_import = __import__(from_path, fromlist=[self.model_name])
-        self.__model__ = getattr(magic_import, self.model_name.capitalize())
+        
+        # Generate the CamelCase model classname
+        model_class_name = ''
+        for model_class_name_split in self.model_name.split('_'):
+            model_class_name += model_class_name_split.capitalize()
+
+        # Import model from generated classname
+        self.__model__ = getattr(magic_import, model_class_name)
         self.__type__ = self.__model__
 
     @SqlAlchemyConnector.provide_session
@@ -24,7 +32,6 @@ class CrudService(object):
     @SqlAlchemyConnector.provide_session
     def get_full(self, resource_id, session=None):
         """Get an instance with loading subinstances"""
-        print 'enter the matrix'
         model_instance = session.query(self.__model__).get(resource_id)
         if model_instance:
             result = model_instance.dump()
