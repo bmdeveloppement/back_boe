@@ -2,6 +2,7 @@
 from flask import Blueprint
 from domain.service.delivery import DeliveryService
 from action.crud import crud_actions
+from lib.json_utils import json_format
 
 current_action = 'delivery'
 delivery_bp = Blueprint(current_action, __name__, url_prefix='/%s' % current_action)
@@ -11,6 +12,7 @@ crud_actions(blueprint=delivery_bp,
 
 
 @delivery_bp.route('/get_full/<int:reference_id>', methods=['GET'])
-def get(reference_id):
-    """Get details"""
+@json_format
+def get_full(reference_id):
+    """Get full details"""
     return DeliveryService().get_full(reference_id)

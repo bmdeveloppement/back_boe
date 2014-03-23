@@ -12,26 +12,26 @@ class CrudService(object):
         """Init"""
         from_path = 'domain.model.%s' % self.model_name
         magic_import = __import__(from_path, fromlist=[self.model_name])
-        self.model = getattr(magic_import, self.model_name.capitalize())
-        self.__type__ = self.model
+        self.__model__ = getattr(magic_import, self.model_name.capitalize())
+        self.__type__ = self.__model__
 
     @SqlAlchemyConnector.provide_session
     def get(self, resource_id, session=None):
         """Get an instance"""
-        model_instance = session.query(self.model).get(resource_id)
+        model_instance = session.query(self.__model__).get(resource_id)
         return model_instance
 
     @SqlAlchemyConnector.provide_session
     def list(self, session=None):
         """List instances"""
-        model_instances = session.query(self.model).all()
+        model_instances = session.query(self.__model__).all()
         return model_instances
 
     @SqlAlchemyConnector.provide_session
     def create(self, request, session=None):
         """Create new instance"""
         try:
-            model_instance = self.model()
+            model_instance = self.__model__()
             copy_items(request, model_instance, model_instance.__attribute_list__)
             session.add(model_instance)
             session.commit()
@@ -45,7 +45,7 @@ class CrudService(object):
     def update(self, resource_id, request, session=None):
         """Edit an instance"""
         try:
-            model_instance = session.query(self.model).get(resource_id)
+            model_instance = session.query(self.__model__).get(resource_id)
             copy_items(request, model_instance, model_instance.__attribute_list__)
             session.commit()
             return model_instance.id

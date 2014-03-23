@@ -22,4 +22,4 @@ class Delivery(db.Model, Model):
                           db.ForeignKey('client.id'),
                           nullable=False)
 
-    client = db.relationship(Client, lazy='joined')
+    client = db.relationship(Client, uselist=False)  # , lazy='joined'
