@@ -1,0 +1,17 @@
+application:
+    domain: back_boe.dev
+
+databases:
+    auth:
+        host: '127.0.0.1'
+        user: 'root'
+        password: 'pw4benoit'
+        database: 'boe'
+        pool_size: 10
+
+cache:
+    'cache.type': 'memory'
+
+flask:
+    debug: False
+    profiling: False
