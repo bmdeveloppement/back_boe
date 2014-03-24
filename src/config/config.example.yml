@@ -1,5 +1,5 @@
 application:
-    domain: back_boe.dev
+    domain: back.boe.dev
 
 databases:
     auth:
@@ -8,8 +8,10 @@ databases:
         password: 'back_pass'
         database: 'boe'
         pool_size: 10
+
 cache:
     'cache.type': 'memory'
+
 flask:
     debug: False
     profiling: False

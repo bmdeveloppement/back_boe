@@ -43,13 +43,11 @@ def authentify():
     """Authentify request before treatment"""
     pass
 
-
 def set_logging():
     """Loggin sqlalchemy infos"""
     import logging
     logging.basicConfig()
     logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-
 
 def set_http_handlers():
     @application.errorhandler(Exception)

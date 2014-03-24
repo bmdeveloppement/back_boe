@@ -1,5 +1,5 @@
 application:
-    domain: back_boe.dev
+    domain: back.boe.dev
 
 databases:
     auth:
