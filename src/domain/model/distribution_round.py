@@ -13,6 +13,7 @@ class DistributionRound(db.Model, Model):
                             nullable=False)
     name = db.Column(db.String(50), nullable=False)
     cost = db.Column(db.Float(precision=2), nullable=False)
+    unitary_cost = db.Column(db.Float(precision=2), nullable=False)
     schedule = db.Column(db.String(500), nullable=False)
 
     deliverer = db.relationship(Deliverer, uselist=False)

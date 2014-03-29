@@ -48,9 +48,13 @@ class CrudService(object):
         model_instance = session.query(self.__model__).get(resource_id)
         if model_instance:
             result = model_instance.dump()
-            for relationship in self.get_relationships():
-                result[relationship] = getattr(model_instance, relationship).dump()
-            return result
+            try:
+                for relationship in self.get_relationships():
+                    result[relationship] = getattr(model_instance, relationship).dump()
+                return result
+            except Exception as e:
+                logging.error(repr(e))
+                return False
         else:
             return None
 
