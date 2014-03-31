@@ -2,9 +2,11 @@
 
 from __future__ import absolute_import  # allows importing built-in json module
 import uuid
+import datetime
 from json import dumps
 from functools import wraps
 from decimal import Decimal
+
 try:
     from bson.objectid import ObjectId
 except ImportError:
@@ -29,8 +31,10 @@ def default_handler(obj):
         return float(obj)
     if ObjectId is not None and isinstance(obj, ObjectId):
         return str(obj)
+    if isinstance(obj, datetime.timedelta):
+        return str(obj)
     raise TypeError("Object of type %s with value of %s "
-            "is not JSON serializable" % (type(obj), repr(obj)))
+                    "is not JSON serializable" % (type(obj), repr(obj)))
 
 
 def json_format(fn=None, cls=None):
