@@ -6,6 +6,7 @@ from lib.item_utils import copy_items
 
 logger = logging.getLogger(__name__)
 
+
 class CrudService(object):
 
     def __init__(self):
@@ -13,7 +14,7 @@ class CrudService(object):
         # Import model path from model_name
         from_path = 'domain.model.%s' % self.model_name
         magic_import = __import__(from_path, fromlist=[self.model_name])
-        
+
         # Generate the CamelCase model classname
         model_class_name = ''
         for model_class_name_split in self.model_name.split('_'):
@@ -25,15 +26,15 @@ class CrudService(object):
 
     def get_columns(self):
         """Get columns of the current table"""
-        columns = [str(column).replace(self.model_name + '.', '') 
-                    for column in self.__model__.__table__.columns]
+        columns = [str(column).replace(self.model_name + '.', '')
+                   for column in self.__model__.__table__.columns]
         columns.remove('id')
         return columns
 
     def get_relationships(self):
         """Get relationships of the current table, from forein keys"""
-        relationships = [str(foreign_key.parent.name).replace('_id', '') 
-                    for foreign_key in self.__model__.__table__.foreign_keys]
+        relationships = [str(foreign_key.parent.name).replace('_id', '')
+                         for foreign_key in self.__model__.__table__.foreign_keys]
         return relationships
 
     @SqlAlchemyConnector.provide_session

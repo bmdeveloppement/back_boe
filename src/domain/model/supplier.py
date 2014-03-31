@@ -2,6 +2,7 @@
 from main import db
 from domain.model.model import Model
 
+
 class Supplier(db.Model, Model):
     """Model"""
     __tablename__ = 'supplier'
@@ -10,4 +11,4 @@ class Supplier(db.Model, Model):
     company_name = db.Column(db.String(50), nullable=False)
     email_address = db.Column(db.String(50), nullable=False)
     report = db.Column(db.Boolean, nullable=False)
-    reporting_hour = db.Column(db.DateTime, nullable=True)
+    reporting_hour = db.Column(db.Time(timezone=False), nullable=True)
