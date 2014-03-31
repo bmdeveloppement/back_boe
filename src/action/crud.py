@@ -3,7 +3,6 @@ import logging
 from flask import abort, Blueprint, request
 from flask.views import MethodView
 from lib.json_utils import json_format
-from domain.service.client import ClientService
 
 logger = logging.getLogger(__name__)
 
