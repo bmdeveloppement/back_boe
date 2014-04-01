@@ -24,6 +24,9 @@ class CrudService(object):
         self.__model__ = getattr(magic_import, model_class_name)
         self.__type__ = self.__model__
 
+        # List of parameters used on models
+        self.model_parameters = ['order_by', 'limit', 'offset']
+
     def get_columns(self):
         """Get columns of the current table"""
         columns = [str(column).replace(self.model_name + '.', '')
@@ -60,16 +63,23 @@ class CrudService(object):
             return None
 
     @SqlAlchemyConnector.provide_session
-    def list(self, session=None):
+    def list(self, request=None, session=None):
         """List instances"""
-        model_instances = session.query(self.__model__).all()
-        return model_instances
+        session_query = session.query(self.__model__)
+        for param in self.model_parameters:
+            if param in request:
+                session_query = getattr(session_query, param)(request[param])
+        return session_query.all()
 
     @SqlAlchemyConnector.provide_session
-    def list_field(self, field_name, session=None):
+    def list_field(self, field_name, request=None, session=None):
         """List instances by field"""
-        model_instances = session.query(self.__model__.id, getattr(self.__model__, field_name)).all()
-        return model_instances
+        session_query = session.query(self.__model__.id,
+                                      getattr(self.__model__, field_name))
+        for param in self.model_parameters:
+            if param in request:
+                session_query = getattr(session_query, param)(request[param])
+        return session_query.all()
 
     @SqlAlchemyConnector.provide_session
     def create(self, request, session=None):
