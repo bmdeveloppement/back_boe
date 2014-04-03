@@ -67,8 +67,10 @@ class CrudService(object):
         """List instances"""
         session_query = session.query(self.__model__)
         for param in self.model_parameters:
-            if param in request:
+            if request[param] and param in request:
                 session_query = getattr(session_query, param)(request[param])
+        if 'limit' not in request:
+            session_query = session_query.limit(5000)
         return session_query.all()
 
     @SqlAlchemyConnector.provide_session
@@ -77,8 +79,10 @@ class CrudService(object):
         session_query = session.query(self.__model__.id,
                                       getattr(self.__model__, field_name))
         for param in self.model_parameters:
-            if param in request:
+            if request[param] and param in request:
                 session_query = getattr(session_query, param)(request[param])
+        if 'limit' not in request:
+            session_query = session_query.limit(5000)
         return session_query.all()
 
     @SqlAlchemyConnector.provide_session

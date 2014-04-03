@@ -10,6 +10,7 @@ class DistributionRoundService(CrudService):
 
     def __init__(self):
         """Init"""
+        super(DistributionRoundService, self).__init__()
         self.__model__ = DistributionRound
         self.__type__ = DistributionRound
 
