@@ -9,6 +9,9 @@ databases:
         database: 'boe'
         pool_size: 10
 
+crud:
+    list_limit: 5000
+
 cache:
     'cache.type': 'memory'
 

@@ -3,6 +3,7 @@
 import logging
 from lib.database_utils import SqlAlchemyConnector
 from lib.item_utils import copy_items
+from lib.configurator import Configurator
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,7 @@ class CrudService(object):
 
         # List of parameters used on models
         self.model_parameters = ['order_by', 'limit', 'offset']
+        self.list_limit = int(Configurator().get_setting('crud')['list_limit'])
 
     def get_columns(self):
         """Get columns of the current table"""
@@ -67,10 +69,10 @@ class CrudService(object):
         """List instances"""
         session_query = session.query(self.__model__)
         for param in self.model_parameters:
-            if request[param] and param in request:
+            if param in request:
                 session_query = getattr(session_query, param)(request[param])
         if 'limit' not in request:
-            session_query = session_query.limit(5000)
+            session_query = session_query.limit(self.list_limit)
         return session_query.all()
 
     @SqlAlchemyConnector.provide_session
@@ -79,10 +81,10 @@ class CrudService(object):
         session_query = session.query(self.__model__.id,
                                       getattr(self.__model__, field_name))
         for param in self.model_parameters:
-            if request[param] and param in request:
+            if param in request:
                 session_query = getattr(session_query, param)(request[param])
         if 'limit' not in request:
-            session_query = session_query.limit(5000)
+            session_query = session_query.limit(self.list_limit)
         return session_query.all()
 
     @SqlAlchemyConnector.provide_session
