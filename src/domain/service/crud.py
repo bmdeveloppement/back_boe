@@ -115,3 +115,16 @@ class CrudService(object):
             session.rollback()
             logging.error(repr(e))
             return False
+
+    @SqlAlchemyConnector.provide_session
+    def delete(self, resource_id, session=None):
+        """Delete an instance"""
+        try:
+            model_instance = session.query(self.__model__).get(resource_id)
+            session.delete(model_instance)
+            session.commit()
+            return model_instance.id
+        except Exception as e:
+            session.rollback()
+            logging.error(repr(e))
+            return False
