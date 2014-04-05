@@ -10,10 +10,3 @@ distribution_round_bp = Blueprint(current_action, __name__, url_prefix='/%s' % c
 crud_actions(blueprint=distribution_round_bp,
              resource_name=current_action,
              resource_service=DistributionRoundService)
-
-
-@distribution_round_bp.route('/get_full/<int:reference_id>', methods=['GET'])
-@json_format
-def get_full(reference_id):
-    """Get full details"""
-    return DistributionRoundService().get_full(reference_id)

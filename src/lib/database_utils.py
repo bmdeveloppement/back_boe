@@ -74,7 +74,6 @@ class DbConnector(Singleton):
 
     def __init__(self):
         """DbConnector"""
-        print 'Initializing DbConnector'
         self.settings = Configurator().get_setting('databases')
         self.pooled_databases = {}
         self.direct_databases = {}

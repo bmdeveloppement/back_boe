@@ -14,9 +14,11 @@ sys.path.append(path.dirname(__file__))
 Configurator(os.path.dirname(__file__))
 application = BoeFlaskApplication(__name__)
 
+
 def import_blueprints():
     """Import BPs"""
     from action.client import client_bp
+    from action.dashboard import dashboard_bp
     from action.deliverer import deliverer_bp
     from action.delivery import delivery_bp
     from action.distribution_round import distribution_round_bp
@@ -29,6 +31,7 @@ def import_blueprints():
     from action.supplier_price import supplier_price_bp
 
     application.register_blueprint(client_bp)
+    application.register_blueprint(dashboard_bp)
     application.register_blueprint(deliverer_bp)
     application.register_blueprint(delivery_bp)
     application.register_blueprint(distribution_round_bp)
@@ -40,16 +43,19 @@ def import_blueprints():
     application.register_blueprint(supplier_bp)
     application.register_blueprint(supplier_price_bp)
 
+
 @application.before_request
 def authentify():
     """Authentify request before treatment"""
     pass
+
 
 def set_logging():
     """Loggin sqlalchemy infos"""
     import logging
     logging.basicConfig()
     logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
 
 def set_http_handlers():
     @application.errorhandler(Exception)
