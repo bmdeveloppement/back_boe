@@ -67,13 +67,15 @@ class CrudService(object):
     @SqlAlchemyConnector.provide_session
     def list(self, request=None, session=None):
         """List instances"""
+        from sqlalchemy import func
         session_query = session.query(self.__model__)
+        count = session.query(func.count(self.__model__.id)).scalar()
         for param in self.model_parameters:
             if param in request:
                 session_query = getattr(session_query, param)(request[param])
         if 'limit' not in request:
             session_query = session_query.limit(self.list_limit)
-        return session_query.all()
+        return {'items': session_query.all(), 'count': count}
 
     @SqlAlchemyConnector.provide_session
     def list_field(self, field_name, request=None, session=None):
