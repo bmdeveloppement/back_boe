@@ -6,6 +6,7 @@ from domain.model.press_title import PressTitle
 from domain.model.delivery import Delivery
 from domain.model.point_of_sale import PointOfSale
 
+
 class Newspaper(db.Model, Model):
     """Model"""
     __tablename__ = 'newspaper'

@@ -4,6 +4,7 @@ from domain.model.model import Model
 from domain.model.press_title import PressTitle
 from domain.model.point_of_sale import PointOfSale
 
+
 class Order(db.Model, Model):
     """Model"""
     __tablename__ = 'order'

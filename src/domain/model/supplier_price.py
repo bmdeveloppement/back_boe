@@ -4,6 +4,7 @@ from domain.model.model import Model
 from domain.model.press_title import PressTitle
 from domain.model.client import Client
 
+
 class SupplierPrice(db.Model, Model):
     """Model"""
     __tablename__ = 'supplier_price'

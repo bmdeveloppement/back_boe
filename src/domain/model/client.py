@@ -2,6 +2,7 @@
 from main import db
 from domain.model.model import Model
 
+
 class Client(db.Model, Model):
     """Model"""
     __tablename__ = 'client'

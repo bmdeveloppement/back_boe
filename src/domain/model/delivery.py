@@ -4,6 +4,7 @@ from domain.model.model import Model
 from domain.model.distribution_round import DistributionRound
 from domain.model.point_of_sale import PointOfSale
 
+
 class Delivery(db.Model, Model):
     """Model"""
     __tablename__ = 'delivery'
@@ -16,6 +17,7 @@ class Delivery(db.Model, Model):
                                  db.ForeignKey('point_of_sale.id'),
                                  nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+    distribution_round_cost = db.Column(db.Float(precision=2), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
 
     distribution_round = db.relationship(DistributionRound, uselist=False)

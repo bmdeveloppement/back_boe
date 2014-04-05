@@ -3,6 +3,7 @@ from main import db
 from domain.model.model import Model
 from domain.model.supplier import Supplier
 
+
 class PressTitle(db.Model, Model):
     """Model"""
     __tablename__ = 'press_title'

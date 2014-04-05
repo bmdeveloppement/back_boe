@@ -3,6 +3,7 @@ from main import db
 from domain.model.model import Model
 from domain.model.client import Client
 
+
 class PointOfSale(db.Model, Model):
     """Model"""
     __tablename__ = 'point_of_sale'

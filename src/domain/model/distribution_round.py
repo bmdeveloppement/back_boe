@@ -3,14 +3,15 @@ from main import db
 from domain.model.model import Model
 from domain.model.deliverer import Deliverer
 
+
 class DistributionRound(db.Model, Model):
     """Model"""
     __tablename__ = 'distribution_round'
 
     id = db.Column(db.Integer(10), primary_key=True)
     deliverer_id = db.Column(db.Integer,
-                            db.ForeignKey('deliverer.id'),
-                            nullable=False)
+                             db.ForeignKey('deliverer.id'),
+                             nullable=False)
     name = db.Column(db.String(50), nullable=False)
     cost = db.Column(db.Float(precision=2), nullable=False)
     unitary_cost = db.Column(db.Float(precision=2), nullable=False)
