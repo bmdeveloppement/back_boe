@@ -13,7 +13,6 @@ dashboard_bp = Blueprint(current_action, __name__,
 @json_format
 def get_by_date():
     """Get dashboard global statistics between two dates"""
-    print 'pipopouet'
     date_begin = request.form['date_begin']
     date_end = request.form['date_end']
     return DashboardService().get_newspaper_statistics(date_begin, date_end)
