@@ -8,18 +8,26 @@ class DashboardService(object):
     @SqlAlchemyConnector.provide_session
     def get_newspaper_statistics(self, date_begin, date_end, session=None):
         """Get statistics by date"""
-        # Execute specific query
-        rows = session.execute("""SELECT date, COUNT(id) AS newspaper_count,
-            SUM(price) AS price,SUM(supplier_cost) AS supplier_cost,
-            SUM(royalty_cost) AS royalty_cost
-            FROM newspaper
-            WHERE date >= :date_begin AND date <= :date_end
-            GROUP BY date""",
-            {'date_begin': date_begin, 'date_end': date_end})
-        result = {}
-        for row in rows:
-            print row
-            result[row['date']] = row
+        from domain.model.newspaper import Newspaper
+        from sqlalchemy import func
+
+        # Build fields
+        count = func.count(Newspaper.id).label('count')
+        price = func.sum(Newspaper.price).label('price')
+        supplier_cost = func.sum(Newspaper.supplier_cost).label('supplier_cost')
+        royalty_cost = func.sum(Newspaper.royalty_cost).label('royalty_cost')
+
+        # Build query
+        query = session.query(count, price, supplier_cost, royalty_cost,
+                              Newspaper.date.label('date')) \
+            .filter(Newspaper.date >= date_begin) \
+            .filter(Newspaper.date <= date_end) \
+            .group_by(Newspaper.date).order_by(Newspaper.date)
+
+        # Format keyed tuples to dict
+        result = []
+        for item in query.all():
+            result.append(dict(zip(item._labels, item)))
 
         return result
 
