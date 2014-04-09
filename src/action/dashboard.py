@@ -15,4 +15,13 @@ def get_by_date():
     """Get dashboard global statistics between two dates"""
     date_begin = request.form['date_begin']
     date_end = request.form['date_end']
-    return DashboardService().get_newspaper_statistics(date_begin, date_end)
+
+    # Build result
+    result = {}
+    result['newspaper_global_metrics'] = \
+        DashboardService().get_newspaper_global_statistics(date_begin, date_end)
+
+    result['newspaper_date_metrics'] = \
+        DashboardService().get_newspaper_date_statistics(date_begin, date_end)
+
+    return result
