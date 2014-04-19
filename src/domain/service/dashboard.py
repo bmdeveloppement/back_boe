@@ -34,6 +34,8 @@ class DashboardService(object):
                             date_end,
                             session=None):
         """Get statistics by date"""
+        from datetime import datetime
+        from collections import OrderedDict
         result = {}
 
         # Fetch newspaper statistics
@@ -59,6 +61,9 @@ class DashboardService(object):
                                         distribution_round_statistics,
                                         'distribution_round')
 
+        # Order by date
+        result = sorted(result.items())
+
         return result
 
     def build_date_result(self, result, statistics, key):
@@ -68,7 +73,7 @@ class DashboardService(object):
         # Append result for each date
         for statistic in statistics:
             date = dateutil.parser.parse(str(statistic['date']))
-            date = date.strftime('%Y/%m/%d')
+            date = date.strftime('%Y-%m-%d')
             if date not in result:
                 result[date] = []
             result[date].append({key: statistic})
@@ -226,6 +231,7 @@ class DashboardService(object):
             .filter(DistributionRoundArchive.date >= date_begin) \
             .filter(DistributionRoundArchive.date <= date_end) \
             .group_by(DistributionRoundArchive.date) \
+            .order_by(DistributionRoundArchive.date) \
             .order_by(DistributionRoundArchive.date)
 
         # Format keyed tuples to dict
