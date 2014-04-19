@@ -15,7 +15,7 @@ class Delivery(db.Model, Model):
                                       db.ForeignKey('distribution_round.id'),
                                       nullable=False)
     distribution_round_archive_id = db.Column(db.Integer,
-                                              db.ForeignKey('distribution_round_cost.id'),
+                                              db.ForeignKey('distribution_round_archive.id'),
                                               nullable=False)
     point_of_sale_id = db.Column(db.Integer,
                                  db.ForeignKey('point_of_sale.id'),
