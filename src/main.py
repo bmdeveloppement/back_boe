@@ -21,6 +21,7 @@ def import_blueprints():
     from action.dashboard import dashboard_bp
     from action.deliverer import deliverer_bp
     from action.delivery import delivery_bp
+    from action.distribution_round_archive import distribution_round_archive_bp
     from action.distribution_round import distribution_round_bp
     from action.point_of_sale import point_of_sale_bp
     from action.point_of_sale_distribution_round import point_of_sale_distribution_round_bp
@@ -35,6 +36,7 @@ def import_blueprints():
     application.register_blueprint(deliverer_bp)
     application.register_blueprint(delivery_bp)
     application.register_blueprint(distribution_round_bp)
+    application.register_blueprint(distribution_round_archive_bp)
     application.register_blueprint(point_of_sale_bp)
     application.register_blueprint(point_of_sale_distribution_round_bp)
     application.register_blueprint(newspaper_bp)
