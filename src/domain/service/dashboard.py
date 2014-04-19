@@ -6,6 +6,76 @@ from sqlalchemy.sql import select
 class DashboardService(object):
 
     @SqlAlchemyConnector.provide_session
+    def get_global_statistics(self,
+                              date_begin,
+                              date_end,
+                              session=None):
+        """Get global statistics"""
+
+        result = {}
+
+        # Newspaper
+        result['newspaper'] = \
+            self.get_newspaper_global_statistics(date_begin, date_end)
+
+        # Delivery
+        result['delivery'] = \
+            self.get_delivery_global_statistics(date_begin, date_end)
+
+        # Distribution round
+        result['distribution_round'] = \
+            self.get_distribution_round_global_statistics(date_begin, date_end)
+
+        return result
+
+    @SqlAlchemyConnector.provide_session
+    def get_date_statistics(self,
+                            date_begin,
+                            date_end,
+                            session=None):
+        """Get statistics by date"""
+        result = {}
+
+        # Fetch newspaper statistics
+        newspaper_statistics = \
+            self.get_newspaper_date_statistics(date_begin, date_end)
+
+        # Fetch delivery statistics
+        delivery_statistics = \
+            self.get_delivery_date_statistics(date_begin, date_end)
+
+        # Fetch distribution round statistics
+        distribution_round_statistics = \
+            self.get_distribution_round_date_statistics(date_begin, date_end)
+
+        # Merge fetched results
+        result = self.build_date_result(result,
+                                        newspaper_statistics,
+                                        'newspaper')
+        result = self.build_date_result(result,
+                                        delivery_statistics,
+                                        'delivery')
+        result = self.build_date_result(result,
+                                        distribution_round_statistics,
+                                        'distribution_round')
+
+        return result
+
+    def build_date_result(self, result, statistics, key):
+        """Merge statistics by date"""
+        import dateutil.parser
+
+        # Append result for each date
+        for statistic in statistics:
+            date = dateutil.parser.parse(str(statistic['date']))
+            date = date.strftime('%Y/%m/%d')
+            if date not in result:
+                result[date] = []
+            result[date].append({key: statistic})
+
+        return result
+
+    @SqlAlchemyConnector.provide_session
     def get_newspaper_global_statistics(self,
                                         date_begin,
                                         date_end,

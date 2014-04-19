@@ -18,22 +18,10 @@ def get_by_date():
 
     # Build result
     result = {}
-    result['newspaper_global_metrics'] = \
-        DashboardService().get_newspaper_global_statistics(date_begin, date_end)
+    result['global_metrics'] = \
+        DashboardService().get_global_statistics(date_begin, date_end)
 
-    result['newspaper_date_metrics'] = \
-        DashboardService().get_newspaper_date_statistics(date_begin, date_end)
-
-    result['delivery_global_metrics'] = \
-        DashboardService().get_delivery_global_statistics(date_begin, date_end)
-
-    result['delivery_date_metrics'] = \
-        DashboardService().get_delivery_date_statistics(date_begin, date_end)
-
-    result['distribution_round_global_metrics'] = \
-        DashboardService().get_distribution_round_global_statistics(date_begin, date_end)
-
-    result['distribution_round_date_metrics'] = \
-        DashboardService().get_distribution_round_date_statistics(date_begin, date_end)
+    result['date_metrics'] = \
+        DashboardService().get_date_statistics(date_begin, date_end)
 
     return result
