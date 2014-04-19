@@ -124,7 +124,7 @@ class DashboardService(object):
 
         # Build fields
         count = func.count(DistributionRoundArchive.id).label('count')
-        cost = func.sum(DistributionRoundArchive.cost).label('price')
+        cost = func.sum(DistributionRoundArchive.cost).label('cost')
 
         # Build query
         query = session.query(count, cost) \
@@ -149,7 +149,7 @@ class DashboardService(object):
 
         # Build fields
         count = func.count(DistributionRoundArchive.id).label('count')
-        cost = func.sum(DistributionRoundArchive.cost).label('price')
+        cost = func.sum(DistributionRoundArchive.cost).label('cost')
 
         # Build query
         query = session.query(count, cost, DistributionRoundArchive.date.label('date')) \
