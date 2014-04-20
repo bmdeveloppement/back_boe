@@ -15,7 +15,8 @@ class BillingService(object):
 
         # Build fields
         count = func.count(Newspaper.id).label('count')
-        name = PressTitle.name.label('name')
+        press_title_id = PressTitle.id.label('press_title_id')
+        press_title_name = PressTitle.name.label('press_title_name')
         price = func.sum(Newspaper.price).label('price')
         supplier_cost = func.sum(Newspaper.supplier_cost) \
             .label('supplier_cost')
@@ -25,8 +26,8 @@ class BillingService(object):
         client_company_name = Client.company_name.label('client_company_name')
 
         # Build query
-        query = session.query(count, name, price, supplier_cost,
-                              royalty_cost, unsold,
+        query = session.query(count, press_title_id, press_title_name,
+                              price, supplier_cost, royalty_cost, unsold,
                               client_id, client_company_name) \
             .join(Client, Newspaper.client_id == Client.id) \
             .join(PressTitle, Newspaper.press_title_id == PressTitle.id) \
@@ -35,9 +36,14 @@ class BillingService(object):
             .group_by(Client.id, PressTitle.id)
 
         # Format keyed tuples to dict
-        result = []
+        result = {}
         for item in query.all():
-            result.append(dict(zip(item._labels, item)))
+            if item.client_id not in result:
+                result[item.client_id] = {}
+            if item.press_title_id not in result[item.client_id]:
+                result[item.client_id][item.press_title_id] = []
+            result[item.client_id][item.press_title_id] \
+                .append(dict(zip(item._labels, item)))
 
         return result
 
@@ -65,9 +71,9 @@ class BillingService(object):
             .group_by(Client.id)
 
         # Format keyed tuples to dict
-        result = []
+        result = {}
         for item in query.all():
-            result.append(dict(zip(item._labels, item)))
+            result[item.client_id] = dict(zip(item._labels, item))
 
         return result
 
@@ -85,9 +91,9 @@ class BillingService(object):
             .label('supplier_cost')
         royalty_cost = func.sum(Newspaper.royalty_cost).label('royalty_cost')
         unsold = func.sum(Newspaper.unsold).label('unsold')
-        supplier_id = Supplier.id.label('provider_id')
+        supplier_id = Supplier.id.label('supplier_id')
         supplier_company_name = Supplier.company_name \
-            .label('provider_company_name')
+            .label('supplier_company_name')
 
         # Build query
         query = session.query(count, supplier_cost,
@@ -100,9 +106,9 @@ class BillingService(object):
             .group_by(Supplier.id)
 
         # Format keyed tuples to dict
-        result = []
+        result = {}
         for item in query.all():
-            result.append(dict(zip(item._labels, item)))
+            result[item.supplier_id] = dict(zip(item._labels, item))
 
         return result
 
@@ -134,8 +140,8 @@ class BillingService(object):
             .group_by(Deliverer.id)
 
         # Format keyed tuples to dict
-        result = []
+        result = {}
         for item in query.all():
-            result.append(dict(zip(item._labels, item)))
+            result[item.deliverer_id] = dict(zip(item._labels, item))
 
         return result
