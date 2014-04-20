@@ -89,15 +89,14 @@ class BillingService(object):
         supplier_cost = func.sum(Newspaper.supplier_cost) \
             .label('supplier_cost')
         royalty_cost = func.sum(Newspaper.royalty_cost).label('royalty_cost')
-        unsold = func.sum(Newspaper.unsold).label('unsold')
         supplier_id = Supplier.id.label('supplier_id')
         supplier_company_name = Supplier.company_name \
             .label('supplier_company_name')
 
         # Build query
         query = session.query(count, supplier_cost,
-                              royalty_cost, unsold,
-                              supplier_id, supplier_company_name) \
+                              royalty_cost, supplier_id,
+                              supplier_company_name) \
             .join(PressTitle, Newspaper.press_title_id == PressTitle.id) \
             .join(Supplier, PressTitle.supplier_id == Supplier.id) \
             .filter(Newspaper.date >= date_begin) \

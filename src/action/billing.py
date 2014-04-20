@@ -36,8 +36,7 @@ def get_supplier_by_date():
     # Build result
     result = {}
 
-    result['supplier'] = \
-        BillingService().get_supplier(date_begin, date_end)
+    result = BillingService().get_supplier(date_begin, date_end)
 
     return result
 
@@ -52,7 +51,6 @@ def get_deliverer_by_date():
     # Build result
     result = {}
 
-    result['deliverer'] = \
-        BillingService().get_deliverers(date_begin, date_end)
+    result = BillingService().get_deliverers(date_begin, date_end)
 
     return result
