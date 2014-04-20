@@ -8,25 +8,51 @@ billing_bp = Blueprint(current_action, __name__,
                        url_prefix='/%s' % current_action)
 
 
-@billing_bp.route('/', methods=['POST'])
+@billing_bp.route('/client', methods=['POST'])
 @json_format
-def get_by_date():
+def get_client_by_date():
     """Get billing informations between two dates"""
     date_begin = request.form['date_begin']
     date_end = request.form['date_end']
 
     # Build result
     result = {}
-    result['client_newspapers'] = \
+    result['client_newspaper'] = \
         BillingService().get_client_newspaper(date_begin, date_end)
 
-    result['client_deliveries'] = \
+    result['client_delivery'] = \
         BillingService().get_client_delivery(date_begin, date_end)
 
-    result['suppliers'] = \
+    return result
+
+
+@billing_bp.route('/supplier', methods=['POST'])
+@json_format
+def get_supplier_by_date():
+    """Get billing informations between two dates"""
+    date_begin = request.form['date_begin']
+    date_end = request.form['date_end']
+
+    # Build result
+    result = {}
+
+    result['supplier'] = \
         BillingService().get_supplier(date_begin, date_end)
 
-    result['deliverers'] = \
+    return result
+
+
+@billing_bp.route('/deliverer', methods=['POST'])
+@json_format
+def get_deliverer_by_date():
+    """Get billing informations between two dates"""
+    date_begin = request.form['date_begin']
+    date_end = request.form['date_end']
+
+    # Build result
+    result = {}
+
+    result['deliverer'] = \
         BillingService().get_deliverers(date_begin, date_end)
 
     return result
