@@ -34,15 +34,15 @@ class BillingService(object):
             .filter(Newspaper.date <= date_end) \
             .group_by(Client.id, PressTitle.id)
 
-        # Format keyed tuples to dict
+        # Format result
         result = {}
         for item in query.all():
-            if item.client_company_name not in result:
-                result[item.client_company_name] = {}
-            if item.press_title_name not in result[item.client_company_name]:
-                result[item.client_company_name][item.press_title_name] = []
-            result[item.client_company_name][item.press_title_name] \
-                .append(dict(zip(item._labels, item)))
+            if item.client_id not in result:
+                result[item.client_id] = {'client_company_name':
+                                          item.client_company_name,
+                                          'data': {}}
+            result[item.client_id]['data'][item.press_title_id] = \
+                dict(zip(item._labels, item))
 
         return result
 
@@ -69,10 +69,10 @@ class BillingService(object):
             .filter(Delivery.date <= date_end) \
             .group_by(Client.id)
 
-        # Format keyed tuples to dict
+        # Format result
         result = {}
         for item in query.all():
-            result[item.client_company_name] = dict(zip(item._labels, item))
+            result[item.client_id] = dict(zip(item._labels, item))
 
         return result
 
@@ -104,7 +104,7 @@ class BillingService(object):
             .filter(Newspaper.date <= date_end) \
             .group_by(Supplier.id)
 
-        # Format keyed tuples to dict
+        # Format result
         result = {}
         for item in query.all():
             result[item.supplier_id] = dict(zip(item._labels, item))
@@ -138,7 +138,7 @@ class BillingService(object):
             .filter(DistributionRoundArchive.date <= date_end) \
             .group_by(Deliverer.id)
 
-        # Format keyed tuples to dict
+        # Format result
         result = {}
         for item in query.all():
             result[item.deliverer_id] = dict(zip(item._labels, item))
