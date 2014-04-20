@@ -9,11 +9,13 @@ class BillingService(object):
     def get_client_newspaper(self, date_begin, date_end, session=None):
         """Get client newspaper billing"""
         from domain.model.newspaper import Newspaper
+        from domain.model.press_title import PressTitle
         from domain.model.client import Client
         from sqlalchemy import func
 
         # Build fields
         count = func.count(Newspaper.id).label('count')
+        name = PressTitle.name.label('name')
         price = func.sum(Newspaper.price).label('price')
         supplier_cost = func.sum(Newspaper.supplier_cost) \
             .label('supplier_cost')
@@ -23,13 +25,14 @@ class BillingService(object):
         client_company_name = Client.company_name.label('client_company_name')
 
         # Build query
-        query = session.query(count, price, supplier_cost,
+        query = session.query(count, name, price, supplier_cost,
                               royalty_cost, unsold,
                               client_id, client_company_name) \
             .join(Client, Newspaper.client_id == Client.id) \
+            .join(PressTitle, Newspaper.press_title_id == PressTitle.id) \
             .filter(Newspaper.date >= date_begin) \
             .filter(Newspaper.date <= date_end) \
-            .group_by(Client.id)
+            .group_by(Client.id, PressTitle.id)
 
         # Format keyed tuples to dict
         result = []
