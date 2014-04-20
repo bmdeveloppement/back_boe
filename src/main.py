@@ -17,6 +17,7 @@ application = BoeFlaskApplication(__name__)
 
 def import_blueprints():
     """Import BPs"""
+    from action.billing import billing_bp
     from action.client import client_bp
     from action.dashboard import dashboard_bp
     from action.deliverer import deliverer_bp
@@ -31,6 +32,7 @@ def import_blueprints():
     from action.supplier import supplier_bp
     from action.supplier_price import supplier_price_bp
 
+    application.register_blueprint(billing_bp)
     application.register_blueprint(client_bp)
     application.register_blueprint(dashboard_bp)
     application.register_blueprint(deliverer_bp)

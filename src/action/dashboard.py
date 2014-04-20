@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request
-
 from lib.json_utils import json_format
 from domain.service.dashboard import DashboardService
 
